@@ -6,10 +6,14 @@ import "./App.css";
 function App() {
   const [note, setNote] = useState("");
   const [category, setCategory] = useState("");
-  const [notes, setNotes] = useState(() => {
-    const storedNotes = localStorage.getItem("notes");
-    return storedNotes ? JSON.parse(storedNotes) : [];
-  });
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3001/api/notes")
+      .then((res) => res.json())
+      .then((data) => setNotes(data))
+      .catch((err) => console.error("Klaida gaunant užrašus:", err));
+  }, []);
 
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("visos");
@@ -19,6 +23,9 @@ function App() {
   const [darkMode, setDarkMode] = useState(false); // 🌙
 
   const handleAddNote = () => {
+
+    console.log("Pridėjimo mygtukas paspaustas ✅");
+
     if (note.trim() !== "") {
       const now = new Date();
       const newNote = {
@@ -26,11 +33,27 @@ function App() {
         date: now.toLocaleString("lt-LT"),
         category: category,
       };
-      setNotes([...notes, newNote]);
-      setNote("");
-      setCategory("");
+
+      fetch("http://localhost:3001/api/notes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newNote),
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Įrašymo klaida");
+          return res.json();
+        })
+        .then(() => {
+          setNotes((prev) => [...prev, newNote]);
+          setNote("");
+          setCategory("");
+        })
+        .catch((err) => console.error("Nepavyko išsaugoti:", err));
     }
   };
+
 
   const handleDeleteNote = (indexToDelete) => {
     const updatedNotes = notes.filter((_, index) => index !== indexToDelete);
@@ -101,7 +124,7 @@ function App() {
     <div>
       <button onClick={handleExportNotes}>💾 Eksportuoti užrašus (.json)</button>
       <button onClick={handleExportTxt}>📝 Eksportuoti (.txt)</button>
-      
+
       <h1>Mano užrašai</h1>
 
       <button onClick={() => setDarkMode(!darkMode)}>

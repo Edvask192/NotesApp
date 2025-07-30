@@ -1,0 +1,88 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fdfaf6;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+}
+
+h1 {
+  text-align: center;
+  color: #5c5248;
+}
+
+input[type="text"], select {
+  padding: 8px;
+  margin: 5px 0;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fffefb;
+}
+
+button {
+  margin-top: 5px;
+  padding: 8px 12px;
+  background-color: #5c5248;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #403b35;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background-color: white;
+  margin: 10px 0;
+  padding: 15px;
+  border-left: 8px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+li[data-category="darbo"] {
+  border-left-color: #3498db;
+}
+
+li[data-category="asmeniniai"] {
+  border-left-color: #27ae60;
+}
+
+li[data-category="svarbūs"] {
+  border-left-color: #e67e22;
+}
+
+.dark {
+  background-color: #121212;
+  color: #f0f0f0;
+  background-image: none;
+}
+
+.dark input[type="text"],
+.dark select {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  border-color: #444;
+}
+
+.dark button {
+  background-color: #333;
+  color: white;
+}
+
+.dark li {
+  background-color: #1a1a1a;
+  border-left-color: #555 !important;
+  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
+}

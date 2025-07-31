@@ -1,88 +1,135 @@
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #fdfaf6;
-  margin: 0;
+.app-container {
+  display: flex;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+.sidebar {
+  width: 300px;
+  background-color: #f1f1f1;
   padding: 20px;
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.notification {
+  background-color: #dff0d8;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-left: 5px solid #3c763d;
+}
+
+body {
+  background-color: #f8f9fa;
+  font-family: "Segoe UI", sans-serif;
   color: #333;
-  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
 }
 
-h1 {
-  text-align: center;
-  color: #5c5248;
+.sidebar {
+  background-color: #f0f0f0;
+  border-right: 1px solid #ccc;
+  padding: 20px;
 }
 
-input[type="text"], select {
-  padding: 8px;
-  margin: 5px 0;
+.sidebar input,
+.sidebar select {
+  display: block;
   width: 100%;
-  max-width: 400px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #fffefb;
-}
-
-button {
-  margin-top: 5px;
-  padding: 8px 12px;
-  background-color: #5c5248;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #403b35;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  background-color: white;
   margin: 10px 0;
-  padding: 15px;
-  border-left: 8px solid #ccc;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+  font-size: 0.95rem;
 }
 
-li[data-category="darbo"] {
-  border-left-color: #3498db;
+.sidebar button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: #dce3dd;
+  color: #333;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-li[data-category="asmeniniai"] {
-  border-left-color: #27ae60;
+.sidebar button:hover {
+  background-color: #cbd5c0;
 }
 
-li[data-category="svarbūs"] {
-  border-left-color: #e67e22;
+.note-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-left: 6px solid #6c757d;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  transition: transform 0.2s;
 }
 
-.dark {
-  background-color: #121212;
-  color: #f0f0f0;
-  background-image: none;
+.note-card:hover {
+  transform: translateY(-2px);
 }
 
-.dark input[type="text"],
-.dark select {
-  background-color: #1e1e1e;
-  color: #f0f0f0;
-  border-color: #444;
+.note-card input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 8px;
 }
 
-.dark button {
-  background-color: #333;
-  color: white;
+.note-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
 }
 
-.dark li {
-  background-color: #1a1a1a;
-  border-left-color: #555 !important;
-  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
+.note-actions button {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: none;
+  background-color: #dee2e6;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.note-actions button:hover {
+  background-color: #ced4da;
+}
+
+.notification {
+  background-color: #e2f0cb;
+  color: #2f6627;
+  border-left: 5px solid #a4c639;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.date-range {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0;
+}
+
+.date-range input[type="date"] {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 0.95rem;
 }

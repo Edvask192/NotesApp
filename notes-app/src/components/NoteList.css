@@ -1,0 +1,36 @@
+.note-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.note-card {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-left: 6px solid #007acc;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+}
+
+.note-card:hover {
+  transform: scale(1.02);
+}
+
+.note-text {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.note-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.note-actions button {
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}

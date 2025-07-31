@@ -1,3 +1,5 @@
+import "./NoteList.css";
+
 function NoteList({
   notes,
   handleDelete,
@@ -8,9 +10,9 @@ function NoteList({
   setEditedText,
 }) {
   return (
-    <ul>
+    <div className="note-list">
       {notes.map((note, index) => (
-        <li key={index} data-category={note.category}>
+        <div key={index} className="note-card" data-category={note.category}>
           {editingIndex === index ? (
             <>
               <input
@@ -18,23 +20,25 @@ function NoteList({
                 value={editedText}
                 onChange={(e) => setEditedText(e.target.value)}
               />
-              <button onClick={handleSave}>Išsaugoti</button>
+              <button onClick={handleSave}>💾 Išsaugoti</button>
             </>
           ) : (
             <>
-              <div>{note.text}</div>
+              <div className="note-text">{note.text}</div>
               <small><strong>Sukurta:</strong> {note.createdAt || note.date}</small><br />
               {note.updatedAt && (
                 <small><strong>Redaguota:</strong> {note.updatedAt}</small>
               )}<br />
-              <small><strong>Kategorija:</strong> {note.category || "nenurodyta"}</small><br />
-              <button onClick={() => handleEdit(index)}>Redaguoti</button>
-              <button onClick={() => handleDelete(index)}>Ištrinti</button>
+              <small><strong>Kategorija:</strong> {note.category || "nenurodyta"}</small>
+              <div className="note-actions">
+                <button onClick={() => handleEdit(index)}>✏️ Redaguoti</button>
+                <button onClick={() => handleDelete(index)}>🗑️ Ištrinti</button>
+              </div>
             </>
           )}
-        </li>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 }
 

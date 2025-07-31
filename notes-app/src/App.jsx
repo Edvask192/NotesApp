@@ -19,18 +19,17 @@ function App() {
   const [categoryFilter, setCategoryFilter] = useState("visos");
   const [editingIndex, setEditingIndex] = useState(null);
   const [editedText, setEditedText] = useState("");
-
-  const [darkMode, setDarkMode] = useState(false); // 🌙
+  const [darkMode, setDarkMode] = useState(false);
 
   const handleAddNote = () => {
-
-    console.log("Pridėjimo mygtukas paspaustas ✅");
-
     if (note.trim() !== "") {
-      const now = new Date();
+      const timestamp = new Date().toLocaleString("lt-LT");
+
       const newNote = {
         text: note,
-        date: now.toLocaleString("lt-LT"),
+        date: timestamp,
+        createdAt: timestamp,
+        updatedAt: timestamp,
         category: category,
       };
 
@@ -54,10 +53,15 @@ function App() {
     }
   };
 
-
   const handleDeleteNote = (indexToDelete) => {
-    const updatedNotes = notes.filter((_, index) => index !== indexToDelete);
-    setNotes(updatedNotes);
+    fetch(`http://localhost:3001/api/notes/${indexToDelete}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Nepavyko ištrinti");
+        setNotes((prev) => prev.filter((_, index) => index !== indexToDelete));
+      })
+      .catch((err) => console.error("Klaida trinant užrašą:", err));
   };
 
   const handleEditNote = (index) => {
@@ -66,11 +70,30 @@ function App() {
   };
 
   const handleSaveEdit = () => {
-    const updatedNotes = [...notes];
-    updatedNotes[editingIndex].text = editedText;
-    setNotes(updatedNotes);
-    setEditingIndex(null);
-    setEditedText("");
+    const timestamp = new Date().toLocaleString("lt-LT");
+
+    const updatedNote = {
+      ...notes[editingIndex],
+      text: editedText,
+      updatedAt: timestamp,
+    };
+
+    fetch(`http://localhost:3001/api/notes/${editingIndex}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedNote),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Nepavyko atnaujinti");
+        setNotes((prev) =>
+          prev.map((n, i) => (i === editingIndex ? updatedNote : n))
+        );
+        setEditingIndex(null);
+        setEditedText("");
+      })
+      .catch((err) => console.error("Redagavimo klaida:", err));
   };
 
   const handleExportNotes = () => {
@@ -89,9 +112,12 @@ function App() {
   const handleExportTxt = () => {
     if (notes.length === 0) return;
 
-    const content = notes.map((n, i) =>
-      `Užrašas #${i + 1}:\nTekstas: ${n.text}\nData: ${n.date}\nKategorija: ${n.category || "nenurodyta"}\n---`
-    ).join("\n\n");
+    const content = notes
+      .map(
+        (n, i) =>
+          `Užrašas #${i + 1}:\nTekstas: ${n.text}\nSukurta: ${n.createdAt || n.date}\nAtnaujinta: ${n.updatedAt || "–"}\nKategorija: ${n.category || "nenurodyta"}\n---`
+      )
+      .join("\n\n");
 
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
@@ -104,16 +130,23 @@ function App() {
     URL.revokeObjectURL(url);
   };
 
-
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
+
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
 
   const filteredNotes = notes.filter((n) => {
     const matchesText = n.text.toLowerCase().includes(search.toLowerCase());
     const matchesCategory =
       categoryFilter === "visos" || n.category === categoryFilter;
-    return matchesText && matchesCategory;
+
+    const noteDate = new Date(n.createdAt || n.date);
+    const fromDateValid = dateFrom ? noteDate >= new Date(dateFrom) : true;
+    const toDateValid = dateTo ? noteDate <= new Date(dateTo + "T23:59:59") : true;
+
+    return matchesText && matchesCategory && fromDateValid && toDateValid;
   });
 
   useEffect(() => {
@@ -147,6 +180,20 @@ function App() {
         <option value="asmeniniai">Asmeniniai</option>
         <option value="svarbūs">Svarbūs</option>
       </select>
+
+      <input
+        type="date"
+        value={dateFrom}
+        onChange={(e) => setDateFrom(e.target.value)}
+        placeholder="Nuo"
+      />
+      <input
+        type="date"
+        value={dateTo}
+        onChange={(e) => setDateTo(e.target.value)}
+        placeholder="Iki"
+      />
+
 
       <NoteInput
         note={note}

@@ -7,7 +7,6 @@ function NoteList({
   editedText,
   setEditedText,
 }) {
-    
   return (
     <ul>
       {notes.map((note, index) => (
@@ -24,7 +23,10 @@ function NoteList({
           ) : (
             <>
               <div>{note.text}</div>
-              <small>{note.date}</small><br />
+              <small><strong>Sukurta:</strong> {note.createdAt || note.date}</small><br />
+              {note.updatedAt && (
+                <small><strong>Redaguota:</strong> {note.updatedAt}</small>
+              )}<br />
               <small><strong>Kategorija:</strong> {note.category || "nenurodyta"}</small><br />
               <button onClick={() => handleEdit(index)}>Redaguoti</button>
               <button onClick={() => handleDelete(index)}>Ištrinti</button>

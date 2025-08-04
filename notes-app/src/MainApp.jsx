@@ -4,7 +4,6 @@ import NoteList from "./components/NoteList";
 import "./MainApp.css";
 import { useAuth } from "./auth/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { LogOut } from "lucide-react";
 
 function MainApp() {
   const [notes, setNotes] = useState([]);
@@ -19,29 +18,42 @@ function MainApp() {
     category: "",
   });
 
-  const { logout } = useAuth();
+  const { logout, currentUser } = useAuth();
   const navigate = useNavigate();
+  const [userKey, setUserKey] = useState("");
+
+  useEffect(() => {
+    if (currentUser?.email) {
+      setUserKey(currentUser.email);
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (!userKey) return;
+
+    const userNotes = JSON.parse(localStorage.getItem(`notes_${userKey}`)) || [];
+    const userCategories = JSON.parse(localStorage.getItem(`categories_${userKey}`)) || [];
+
+    setNotes(userNotes);
+    setCategories(userCategories);
+  }, [userKey]);
+
+  useEffect(() => {
+    if (userKey) {
+      localStorage.setItem(`notes_${userKey}`, JSON.stringify(notes));
+    }
+  }, [notes, userKey]);
+
+  useEffect(() => {
+    if (userKey) {
+      localStorage.setItem(`categories_${userKey}`, JSON.stringify(categories));
+    }
+  }, [categories, userKey]);
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
-
-  useEffect(() => {
-    const savedNotes = JSON.parse(localStorage.getItem("notes")) || [];
-    setNotes(savedNotes);
-
-    const savedCategories = JSON.parse(localStorage.getItem("categories")) || [];
-    setCategories(savedCategories);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("notes", JSON.stringify(notes));
-  }, [notes]);
-
-  useEffect(() => {
-    localStorage.setItem("categories", JSON.stringify(categories));
-  }, [categories]);
 
   const handleAddNote = () => {
     if (!note.trim()) return;
@@ -85,6 +97,8 @@ function MainApp() {
     ));
   };
 
+  if (!userKey) return null;
+
   return (
     <div className="app-container">
       <aside className="sidebar">
@@ -114,7 +128,9 @@ function MainApp() {
           >
             <option value="">Visos kategorijos</option>
             {categories.map((cat) => (
-              <option key={cat} value={cat}>{cat.charAt(0).toUpperCase() + cat.slice(1)}</option>
+              <option key={cat} value={cat}>
+                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+              </option>
             ))}
           </select>
           <button
@@ -143,12 +159,9 @@ function MainApp() {
           />
         </details>
 
-        {/* Atsijungimo mygtukas */}
-        <div className="logout-container">
-          <button onClick={handleLogout} className="logout-icon-btn" title="Atsijungti">
-            <LogOut size={20} />
-          </button>
-        </div>
+        <button onClick={handleLogout} className="logout-icon-btn">
+          🔒
+        </button>
       </aside>
 
       <main className="main-content">

@@ -1,51 +1,79 @@
+import { useState } from "react";
+import { Trash2, Save, Edit2 } from "lucide-react";
 import "./NoteList.css";
 
-function NoteList({
-  notes,
-  handleDelete,
-  handleEdit,
-  handleSave,
-  editingIndex,
-  editedText,
-  setEditedText,
-}) {
+function NoteList({ notes, handleDeleteNote, handleUpdateNote, filter }) {
+  const [editingNoteId, setEditingNoteId] = useState(null);
+  const [editedText, setEditedText] = useState("");
+
+  const applyFilter = (note) => {
+    const { text, from, to, category } = filter;
+
+    if (text && !note.text.toLowerCase().includes(text.toLowerCase())) {
+      return false;
+    }
+
+    const createdDate = new Date(note.createdAt);
+    if (from && createdDate < new Date(from)) {
+      return false;
+    }
+
+    if (to && createdDate > new Date(to)) {
+      return false;
+    }
+
+    if (category && note.category !== category) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const startEditing = (note) => {
+    setEditingNoteId(note.id);
+    setEditedText(note.text);
+  };
+
+  const saveEditedNote = () => {
+    handleUpdateNote(editingNoteId, editedText);
+    setEditingNoteId(null);
+    setEditedText("");
+  };
+
   return (
     <div className="note-list">
-      {notes.map((note, index) => {
-        const categoryClass = `category-${(note.category || "nenurodyta").toLowerCase()}`;
-
-        return (
-          <div key={index} className={`note-card ${categoryClass}`}>
-            {editingIndex === index ? (
-              <>
-                <textarea
-                  className="edit-textarea"
-                  value={editedText}
-                  onChange={(e) => setEditedText(e.target.value)}
-                />
-                <div className="note-actions">
-                  <button className="save-btn" onClick={handleSave}>
-                    💾 Išsaugoti
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="note-text">{note.text}</div>
-                <small><strong>Sukurta:</strong> {note.createdAt || note.date}</small><br />
-                {note.updatedAt && (
-                  <small><strong>Redaguota:</strong> {note.updatedAt}</small>
-                )}<br />
-                <small><strong>Kategorija:</strong> {note.category || "nenurodyta"}</small>
-                <div className="note-actions">
-                  <button onClick={() => handleEdit(index)}>✏️ Redaguoti</button>
-                  <button onClick={() => handleDelete(index)}>🗑️ Ištrinti</button>
-                </div>
-              </>
-            )}
-          </div>
-        );
-      })}
+      {notes.filter(applyFilter).map((note) => (
+        <div
+          key={note.id}
+          className={`note-card category-${note.category || "nenurodyta"}`}
+        >
+          {editingNoteId === note.id ? (
+            <>
+              <textarea
+                className="edit-textarea"
+                value={editedText}
+                onChange={(e) => setEditedText(e.target.value)}
+              />
+              <button className="save-btn" onClick={saveEditedNote}>
+                <Save size={16} style={{ marginRight: 4 }} />
+                Išsaugoti
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="note-text">{note.text}</div>
+              <div className="note-actions">
+                <button onClick={() => startEditing(note)}>
+                  <Edit2 size={14} /> Redaguoti
+                </button>
+                <button onClick={() => handleDeleteNote(note.id)}>
+                  <Trash2 size={14} /> Ištrinti
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      ))}
     </div>
   );
 }

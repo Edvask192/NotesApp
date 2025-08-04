@@ -1,7 +1,13 @@
+// App.jsx (su UX pertvarkymais)
 import { useState, useEffect } from "react";
 import NoteInput from "./components/NoteInput";
 import NoteList from "./components/NoteList";
 import "./App.css";
+
+const capitalize = (word) => {
+  if (!word) return "";
+  return word.charAt(0).toUpperCase() + word.slice(1);
+};
 
 function App() {
   const [note, setNote] = useState("");
@@ -15,12 +21,12 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
+  const [newCategory, setNewCategory] = useState("");
 
   const [categories, setCategories] = useState(() => {
     const saved = localStorage.getItem("categories");
     return saved ? JSON.parse(saved) : ["darbo", "asmeniniai", "svarbūs"];
   });
-  const [newCategory, setNewCategory] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:3001/api/notes")
@@ -59,7 +65,6 @@ function App() {
   const handleAddNote = () => {
     if (note.trim() !== "") {
       const timestamp = new Date().toLocaleString("lt-LT");
-
       const newNote = {
         text: note,
         date: timestamp,
@@ -67,7 +72,6 @@ function App() {
         updatedAt: timestamp,
         category: category,
       };
-
       fetch("http://localhost:3001/api/notes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -106,13 +110,11 @@ function App() {
 
   const handleSaveEdit = () => {
     const timestamp = new Date().toLocaleString("lt-LT");
-
     const updatedNote = {
       ...notes[editingIndex],
       text: editedText,
       updatedAt: timestamp,
     };
-
     fetch(`http://localhost:3001/api/notes/${editingIndex}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -130,24 +132,11 @@ function App() {
       .catch((err) => console.error("Redagavimo klaida:", err));
   };
 
-
   const handleExportTxt = () => {
     if (notes.length === 0) return;
-
     const content = notes
-      .map((note, i) => {
-        return (
-          `📌 Užrašas #${i + 1}\n` +
-          `──────────────────────────────\n` +
-          `📝 Tekstas:` + `
-        \n${note.text.trim()}\n\n` +
-          `📅 Sukurta: ${note.createdAt || note.date}\n` +
-          `🕓 Atnaujinta: ${note.updatedAt || "–"}\n` +
-          `🏷️ Kategorija: ${note.category || "nenurodyta"}\n`
-        );
-      })
+      .map((note, i) => `\n📌 Užrašas #${i + 1}\n──────────────────────────────\n📝 Tekstas:\n${note.text.trim()}\n\n📅 Sukurta: ${note.createdAt || note.date}\n🕓 Atnaujinta: ${note.updatedAt || "–"}\n🏷️ Kategorija: ${note.category || "nenurodyta"}`)
       .join(`\n\n==============================\n\n`);
-
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -156,7 +145,6 @@ function App() {
     link.click();
     URL.revokeObjectURL(url);
   };
-
 
   const filteredNotes = notes.filter((n) => {
     const matchesText = n.text.toLowerCase().includes(search.toLowerCase());
@@ -170,59 +158,70 @@ function App() {
 
   return (
     <div className="app-container">
-      <div className="sidebar">
+      <aside className="sidebar">
         <h1>Mano užrašai</h1>
-        <button onClick={() => setDarkMode(!darkMode)}>
-          Tema: {darkMode ? "Tamsi" : "Šviesi"}
-        </button>
-        <input
-          type="text"
-          placeholder="Ieškoti..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <select
-          value={categoryFilter}
-          onChange={(e) => setCategoryFilter(e.target.value)}
-        >
-          <option value="visos">Visos kategorijos</option>
-          {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </select>
 
-        <div className="date-range">
+        <details open>
+          <summary>🔍 Filtravimas</summary>
+          <input
+            type="text"
+            placeholder="Ieškoti..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <label>Nuo</label>
           <input
             type="date"
             value={dateFrom}
             onChange={(e) => setDateFrom(e.target.value)}
           />
+          <label>Iki</label>
           <input
             type="date"
             value={dateTo}
             onChange={(e) => setDateTo(e.target.value)}
           />
-        </div>
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+          >
+            <option value="visos">Visos kategorijos</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>{capitalize(cat)}</option>
+            ))}
+          </select>
+          <button className="clear-dates-btn" onClick={() => {
+            setDateFrom("");
+            setDateTo("");
+          }}>❌ Išvalyti filtrą</button>
+        </details>
 
-        <button onClick={handleExportTxt}>📝 Eksportuoti TXT</button>
+        <details>
+          <summary>📝 Naujas užrašas</summary>
+          <NoteInput
+            note={note}
+            setNote={setNote}
+            handleAddNote={handleAddNote}
+            category={category}
+            setCategory={setCategory}
+            categories={categories}
+            newCategory={newCategory}
+            setNewCategory={setNewCategory}
+            handleAddCategory={handleAddCategory}
+            handleDeleteCategory={handleDeleteCategory}
+          />
+        </details>
 
-        <NoteInput
-          note={note}
-          setNote={setNote}
-          handleAddNote={handleAddNote}
-          category={category}
-          setCategory={setCategory}
-          categories={categories}
-          newCategory={newCategory}
-          setNewCategory={setNewCategory}
-          handleAddCategory={handleAddCategory}
-          handleDeleteCategory={handleDeleteCategory}
-        />
-      </div>
+        <details>
+          <summary>⚙️ Kiti veiksmai</summary>
+          <button onClick={handleExportTxt}>📤 Eksportuoti TXT</button>
+          <button onClick={() => setDarkMode(!darkMode)}>
+            🎨 Tema: {darkMode ? "Tamsi" : "Šviesi"}
+          </button>
+        </details>
+      </aside>
 
-      <div className="main-content">
+      <main className="main-content">
         {notification && <div className="notification">{notification}</div>}
         <NoteList
           notes={filteredNotes}
@@ -233,7 +232,7 @@ function App() {
           editedText={editedText}
           setEditedText={setEditedText}
         />
-      </div>
+      </main>
     </div>
   );
 }

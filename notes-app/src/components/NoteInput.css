@@ -1,0 +1,49 @@
+.note-input-wrapper {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.note-input-wrapper textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  font-family: "Segoe UI", sans-serif;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background-color: var(--input-bg);
+  color: var(--text);
+  resize: vertical;
+  min-height: 80px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.note-input-wrapper select,
+.note-input-wrapper input[type="text"] {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background-color: var(--input-bg);
+  color: var(--text);
+  box-sizing: border-box;
+}
+
+.delete-category-btn {
+  background-color: #f8d7da;
+  color: #721c24;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.delete-category-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

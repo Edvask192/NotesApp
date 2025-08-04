@@ -1,3 +1,5 @@
+import './NoteInput.css';
+
 function NoteInput({
   note,
   setNote,
@@ -12,52 +14,56 @@ function NoteInput({
 }) {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      handleAddNote();
+      if (e.ctrlKey) {
+        const start = e.target.selectionStart;
+        const end = e.target.selectionEnd;
+        const newText = note.substring(0, start) + "\n" + note.substring(end);
+        setNote(newText);
+        setTimeout(() => {
+          e.target.selectionStart = e.target.selectionEnd = start + 1;
+        }, 0);
+        e.preventDefault();
+      } else {
+        handleAddNote();
+        e.preventDefault();
+      }
     }
   };
 
   return (
-    <div>
-      <input
-        type="text"
+    <div className="note-input-wrapper">
+      <textarea
         value={note}
         onChange={(e) => setNote(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Įvesk užrašą"
+        rows={4}
       />
 
       <select value={category} onChange={(e) => setCategory(e.target.value)}>
         <option value="">Pasirinkti kategoriją</option>
         {categories.map((cat) => (
           <option key={cat} value={cat}>
-            {cat}
+            {cat.charAt(0).toUpperCase() + cat.slice(1)}
           </option>
         ))}
       </select>
 
-      <div>
-        <input
-          type="text"
-          value={newCategory}
-          onChange={(e) => setNewCategory(e.target.value)}
-          placeholder="Nauja kategorija"
-        />
-        <button onClick={handleAddCategory}>➕</button>
-      </div>
+      <button
+        onClick={() => category && handleDeleteCategory(category)}
+        disabled={!category}
+        className="delete-category-btn"
+      >
+        🗑 Ištrinti pasirinktą kategoriją
+      </button>
 
-      <div>
-        {categories.map((cat) => (
-          <span key={cat} style={{ marginRight: "8px" }}>
-            {cat}{" "}
-            <button
-              onClick={() => handleDeleteCategory(cat)}
-              style={{ color: "red" }}
-            >
-              ❌
-            </button>
-          </span>
-        ))}
-      </div>
+      <input
+        type="text"
+        value={newCategory}
+        onChange={(e) => setNewCategory(e.target.value)}
+        placeholder="Nauja kategorija"
+        onKeyDown={(e) => e.key === "Enter" && handleAddCategory()}
+      />
     </div>
   );
 }

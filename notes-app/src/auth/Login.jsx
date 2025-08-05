@@ -1,4 +1,5 @@
 import "./AuthForm.css";
+import "./App.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
@@ -21,37 +22,39 @@ function Login() {
       return;
     }
 
-    login(user); 
+    login(user);
     navigate("/");
   };
 
   return (
-    <div className="auth-container">
-      <h2>Prisijungimas</h2>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="El. paštas"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Slaptažodis"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Prisijungti</button>
-        {error && <p className="error">{error}</p>}
-      </form>
-      <p>
-        Neturi paskyros?{" "}
-        <a href="/register" style={{ color: "blue" }}>
-          Registruokis
-        </a>
-      </p>
+    <div className="login-page fade-slide">
+      <div className="auth-container">
+        <h2>Edvino Užrašinė</h2>
+        <form onSubmit={handleLogin}>
+          <input
+            type="email"
+            placeholder="El. paštas"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Slaptažodis"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit">Prisijungti</button>
+          {error && <p className="error">{error}</p>}
+        </form>
+        <p>
+          Neturi paskyros?{" "}
+          <a href="/register" style={{ color: "blue" }}>
+            Registruokis
+          </a>
+        </p>
+      </div>
     </div>
   );
 }

@@ -1,12 +1,13 @@
 :root {
-  --bg: #f8f9fa;
-  --text: #212529;
-  --card-bg: #ffffff;
-  --sidebar-bg: #f0f0f0;
+  --bg: #f0e6d2; /* pagrindinis fonas */
+  --text: #2b2b2b;
+  --card-bg: #ffffff; /* užrašų kortelių fonas */
+  --sidebar-bg: #d6c4a3; /* sidebar fonas */
+  --sidebar-card-bg: #f7f1e3; /* sidebar kortelės */
   --input-bg: #ffffff;
   --button-bg: #d6c8e4;
   --button-hover: #c5b1dd;
-  --border: #cccccc;
+  --border: #c1b29b;
   --button-text: #2a2a2a;
 }
 
@@ -15,15 +16,29 @@ body.dark {
   --text: #e9e9e9;
   --card-bg: #2c2c2c;
   --sidebar-bg: #2a2a2a;
+  --sidebar-card-bg: #3a3a3a;
   --input-bg: #3a3a3a;
   --button-bg: #4a3e68;
   --button-hover: #5c4e7d;
   --border: #444;
   --button-text: #ffffff;
+
+  background-image:
+    url("https://www.transparenttextures.com/patterns/paper-fibers.png"),
+    linear-gradient(135deg, #2a2a2a 0%, #1e1e1e 100%);
+  background-repeat: repeat, no-repeat;
+  background-size: auto, cover;
 }
+
+
 
 body {
   background-color: var(--bg);
+  background-image:
+    url("https://www.transparenttextures.com/patterns/paper-fibers.png"),
+    linear-gradient(135deg, #f0e6d2 0%, #e5d6b8 100%);
+  background-repeat: repeat, no-repeat;
+  background-size: auto, cover;
   color: var(--text);
   font-family: "Segoe UI", sans-serif;
   margin: 0;
@@ -41,11 +56,17 @@ body {
   width: 300px;
   flex-shrink: 0;
   background-color: var(--sidebar-bg);
+  background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+  background-repeat: repeat;
+  background-size: auto;
   color: var(--text);
   border-right: 1px solid var(--border);
   padding: 20px;
   box-sizing: border-box;
-  overflow-y: auto;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: hidden;
   overflow-x: hidden;
   z-index: 10;
   word-wrap: break-word;
@@ -57,7 +78,7 @@ body {
 .sidebar textarea {
   width: 100%;
   box-sizing: border-box;
-  margin: 10px 0;
+  margin: 5px 0;
   padding: 8px 12px;
   font-size: 0.95rem;
   border-radius: 6px;
@@ -68,7 +89,12 @@ body {
 }
 
 .logout-icon-btn {
-  width: 2%;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.3s;
 }
 
 .sidebar button {
@@ -91,11 +117,14 @@ body {
 }
 
 .sidebar details {
-  background-color: var(--card-bg);
+  background-color: var(--sidebar-card-bg);
+  background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+  background-repeat: repeat;
+  background-size: auto;
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 5px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
   transition: background-color 0.3s ease;
 }
@@ -103,7 +132,7 @@ body {
 .sidebar summary {
   font-weight: bold;
   cursor: pointer;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   font-size: 1.05rem;
 }
 
@@ -111,6 +140,10 @@ body {
   background-color: #e9d8d8;
   color: #444;
   font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .clear-dates-btn:hover {
@@ -186,48 +219,11 @@ input::placeholder {
   opacity: 0.6;
 }
 
-.note-card.category-asmeniniai {
-  border-left-color: #007bff;
-}
-
-.note-card.category-svarbūs {
-  border-left-color: #dc3545;
-}
-
-.note-card.category-darbo {
-  border-left-color: #28a745;
-}
-
-.note-card.category-laisvalaikio {
-  border-left-color: #ffc107;
-}
-
-.note-card.category-nenurodyta {
-  border-left-color: #6c757d;
-}
-
-.logout-container {
-  bottom: 20px;
-  left: 20px;
-}
-
-.logout-btn {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--text);
-  transition: transform 0.2s ease;
-}
-
-.logout-btn:hover {
-  transform: scale(1.2);
-}
-
-.logout-container {
-  bottom: 20px;
-  left: 20px;
-}
+.note-card.category-asmeniniai { border-left-color: #007bff; }
+.note-card.category-svarbūs { border-left-color: #dc3545; }
+.note-card.category-darbo { border-left-color: #28a745; }
+.note-card.category-laisvalaikio { border-left-color: #ffc107; }
+.note-card.category-nenurodyta { border-left-color: #6c757d; }
 
 .logout-icon-btn {
   background: none;
@@ -236,23 +232,115 @@ input::placeholder {
   cursor: pointer;
   padding: 5px;
   transition: color 0.3s;
+  margin: 5px;
 }
 
 .logout-icon-btn:hover {
   color: red;
 }
 
-.logout-icon-btn {
-  bottom: 20px;
-  left: 20px;
-  background: none;
-  border: none;
-  font-size: 1.4rem;
-  cursor: pointer;
-  color: var(--text);
-  opacity: 0.7;
+summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.logout-icon-btn:hover {
-  opacity: 1;
+.clear-dates-btn,
+.sidebar summary {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+}
+
+.icon-btn svg { width: 16px; height: 16px; }
+
+.icon-btn.save { background-color: #4CAF50; color: white; }
+.icon-btn.save:hover { background-color: #45a049; }
+.icon-btn.delete { background-color: #f44336; color: white; }
+.icon-btn.delete:hover { background-color: #da190b; }
+.icon-btn.logout { background-color: #e91e63; color: white; }
+.icon-btn.logout:hover { background-color: #c2185b; }
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+  .main-content {
+    padding: 10px;
+    overflow-y: visible;
+  }
+
+  .note-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar input,
+  .sidebar select,
+  .sidebar button,
+  .sidebar textarea {
+    font-size: 0.85rem;
+    padding: 6px 8px;
+  }
+
+  .note-card {
+    padding: 12px;
+  }
+
+  .note-actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .note-actions button {
+    width: 100%;
+  }
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: var(--bg);
+  background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+  background-repeat: repeat;
+  background-size: auto;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  padding: 1px;
 }

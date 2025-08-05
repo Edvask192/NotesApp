@@ -4,9 +4,11 @@ import NoteList from "./components/NoteList";
 import "./MainApp.css";
 import { useAuth } from "./auth/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { Pin, XCircle, FileEdit, Lock, Sun, Moon } from "lucide-react";
 
 function MainApp() {
   const [notes, setNotes] = useState([]);
+  const [title, setTitle] = useState("");
   const [note, setNote] = useState("");
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
@@ -17,6 +19,10 @@ function MainApp() {
     to: "",
     category: "",
   });
+
+  const [isDarkMode, setIsDarkMode] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
 
   const { logout, currentUser } = useAuth();
   const navigate = useNavigate();
@@ -50,29 +56,44 @@ function MainApp() {
     }
   }, [categories, userKey]);
 
+  useEffect(() => {
+    document.body.classList.toggle("dark", isDarkMode);
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
+
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
 
-  const handleAddNote = () => {
-    if (!note.trim()) return;
+  const handleAddNote = ({ title, text }) => {
+    if (!title.trim() && !text.trim()) return;
+
     const newNote = {
       id: Date.now(),
-      text: note,
+      title: title.trim(),
+      text: text.trim(),
       category: category || "nenurodyta",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
+
     setNotes([newNote, ...notes]);
+    setTitle("");
     setNote("");
     setCategory("");
   };
 
-  const handleUpdateNote = (id, newText) => {
+  const handleUpdateNote = (id, updatedData) => {
     setNotes(
       notes.map((n) =>
-        n.id === id ? { ...n, text: newText, updatedAt: new Date().toISOString() } : n
+        n.id === id
+          ? {
+            ...n,
+            ...updatedData,
+            updatedAt: new Date().toISOString(),
+          }
+          : n
       )
     );
   };
@@ -103,7 +124,9 @@ function MainApp() {
     <div className="app-container">
       <aside className="sidebar">
         <details open>
-          <summary>📌 Filtravimas</summary>
+          <summary>
+            <Pin size={16} /> Filtravimas
+          </summary>
           <input
             type="text"
             placeholder="Ieškoti..."
@@ -139,13 +162,17 @@ function MainApp() {
             }
             className="clear-dates-btn"
           >
-            ❌ Išvalyti filtrą
+            <XCircle size={16} /> Išvalyti filtrą
           </button>
         </details>
 
         <details open>
-          <summary>📝 Naujas užrašas</summary>
+          <summary>
+            <FileEdit size={16} /> Naujas užrašas
+          </summary>
           <NoteInput
+            title={title}
+            setTitle={setTitle}
             note={note}
             setNote={setNote}
             handleAddNote={handleAddNote}
@@ -159,9 +186,18 @@ function MainApp() {
           />
         </details>
 
-        <button onClick={handleLogout} className="logout-icon-btn">
-          🔒
-        </button>
+        <div className="sidebar-bottom">
+          <button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className="icon-btn theme-toggle"
+            title={isDarkMode ? "Perjungti į šviesią temą" : "Perjungti į tamsią temą"}
+          >
+            {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
+          <button onClick={handleLogout} className="icon-btn logout">
+            <Lock size={16} />
+          </button>
+        </div>
       </aside>
 
       <main className="main-content">

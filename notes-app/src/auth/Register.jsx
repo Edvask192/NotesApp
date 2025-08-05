@@ -1,74 +1,73 @@
 import "./AuthForm.css";
+import "./App.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "./AuthContext";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth();
 
   const handleRegister = (e) => {
     e.preventDefault();
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const userExists = users.find((user) => user.email === email);
-
-    if (userExists) {
-      setError("Toks el. paštas jau užregistruotas");
-      return;
-    }
-
-    if (password !== repeatPassword) {
+    if (password !== confirmPassword) {
       setError("Slaptažodžiai nesutampa");
       return;
     }
 
-    const newUser = { email, password };
-    users.push(newUser);
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const userExists = users.find((u) => u.email === email);
+
+    if (userExists) {
+      setError("Vartotojas su šiuo el. paštu jau egzistuoja");
+      return;
+    }
+
+    users.push({ email, password });
     localStorage.setItem("users", JSON.stringify(users));
 
-    login(newUser); // ✅ Pranešame AuthContext'ui
-    navigate("/");  // ✅ Leidžiame patekti į MainApp
+    navigate("/login");
   };
 
   return (
-    <div className="auth-container">
-      <h2>Registracija</h2>
-      <form onSubmit={handleRegister}>
-        <input
-          type="email"
-          placeholder="El. paštas"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Slaptažodis"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Pakartoti slaptažodį"
-          value={repeatPassword}
-          onChange={(e) => setRepeatPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Registruotis</button>
-        {error && <p className="error">{error}</p>}
-      </form>
-      <p>
-        Jau turi paskyrą?{" "}
-        <a href="/login" style={{ color: "blue" }}>
-          Prisijunk
-        </a>
-      </p>
+    <div className="login-page fade-slide">
+      <div className="auth-container">
+        <h2>Edvino Užrašinė</h2>
+        <form onSubmit={handleRegister}>
+          <input
+            type="email"
+            placeholder="El. paštas"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Slaptažodis"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Pakartokite slaptažodį"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+          <button type="submit">Registruotis</button>
+          {error && <p className="error">{error}</p>}
+        </form>
+        <p>
+          Jau turite paskyrą?{" "}
+          <a href="/login" style={{ color: "blue" }}>
+            Prisijunkite
+          </a>
+        </p>
+      </div>
     </div>
   );
 }

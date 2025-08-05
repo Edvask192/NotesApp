@@ -1,6 +1,10 @@
 import './NoteInput.css';
+import { useState } from 'react';
+import { Save, Trash2, FileEdit } from 'lucide-react';
 
 function NoteInput({
+  title,
+  setTitle,
   note,
   setNote,
   handleAddNote,
@@ -12,33 +16,31 @@ function NoteInput({
   handleAddCategory,
   handleDeleteCategory,
 }) {
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      if (e.ctrlKey) {
-        const start = e.target.selectionStart;
-        const end = e.target.selectionEnd;
-        const newText = note.substring(0, start) + "\n" + note.substring(end);
-        setNote(newText);
-        setTimeout(() => {
-          e.target.selectionStart = e.target.selectionEnd = start + 1;
-        }, 0);
-        e.preventDefault();
-      } else {
-        handleAddNote();
-        e.preventDefault();
-      }
-    }
+  const handleSave = () => {
+    handleAddNote({
+      title: title.trim(),
+      text: note.trim(),
+    });
   };
 
   return (
     <div className="note-input-wrapper">
+      <input
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Įvesk pavadinimą"
+      />
+
       <textarea
         value={note}
         onChange={(e) => setNote(e.target.value)}
-        onKeyDown={handleKeyDown}
         placeholder="Įvesk užrašą"
-        rows={4}
       />
+
+      <button className="icon-btn save" onClick={handleSave}>
+        <Save size={16} /> Išsaugoti užrašą
+      </button>
 
       <select value={category} onChange={(e) => setCategory(e.target.value)}>
         <option value="">Pasirinkti kategoriją</option>
@@ -52,9 +54,9 @@ function NoteInput({
       <button
         onClick={() => category && handleDeleteCategory(category)}
         disabled={!category}
-        className="delete-category-btn"
+        className="icon-btn delete"
       >
-        🗑 Ištrinti pasirinktą kategoriją
+        <Trash2 size={16} /> Ištrinti pasirinktą kategoriją
       </button>
 
       <input
@@ -62,7 +64,7 @@ function NoteInput({
         value={newCategory}
         onChange={(e) => setNewCategory(e.target.value)}
         placeholder="Nauja kategorija"
-        onKeyDown={(e) => e.key === "Enter" && handleAddCategory()}
+        onKeyDown={(e) => e.key === 'Enter' && handleAddCategory()}
       />
     </div>
   );

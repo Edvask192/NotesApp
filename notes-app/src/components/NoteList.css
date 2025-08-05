@@ -1,5 +1,3 @@
-/* NoteList.css */
-
 .note-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -23,6 +21,15 @@
   transform: scale(1.02);
 }
 
+.note-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: var(--text);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
 .note-text {
   font-size: 1.1rem;
   margin-bottom: 8px;
@@ -31,6 +38,27 @@
   overflow-wrap: break-word;
   word-break: break-word;
   max-width: 100%;
+}
+
+.note-card input[type="text"],
+.edit-textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px; /* tas pats padding kaip .note-text */
+  font-size: 1.1rem; /* tas pats dydis kaip tekstas */
+  font-family: inherit;
+  background-color: var(--input-bg);
+  color: var(--text);
+  margin-bottom: 8px; /* tas pats atstumas kaip .note-text */
+  box-sizing: border-box;
+}
+
+.note-card input[type="text"]:focus,
+.edit-textarea:focus {
+  border-color: #9c27b0;
+  box-shadow: 0 0 0 1px rgba(156, 39, 176, 0.2);
+  outline: none;
 }
 
 .note-actions {
@@ -55,20 +83,6 @@
   background-color: #ced4da;
 }
 
-.edit-textarea {
-  width: 100%;
-  min-height: 100px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 10px;
-  font-size: 1rem;
-  font-family: inherit;
-  resize: vertical;
-  background-color: var(--input-bg);
-  color: var(--text);
-  box-sizing: border-box;
-}
-
 .save-btn {
   background-color: var(--button-bg);
   color: var(--button-text, var(--text));
@@ -83,4 +97,109 @@
 
 .save-btn:hover {
   background-color: var(--button-hover);
+}
+
+.toolbar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.toolbar button {
+  background: #f1f1f1;
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.toolbar button:hover {
+  background: #ddd;
+}
+
+.rich-editor {
+  min-height: 100px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px; /* sulyginimas su tekstu */
+  background-color: var(--input-bg);
+  color: var(--text);
+  font-size: 1.1rem;
+  font-family: inherit;
+  direction: ltr !important;
+  text-align: left !important;
+  box-sizing: border-box;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+}
+
+.icon-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-btn.save {
+  background-color: #4CAF50;
+  color: white;
+  width: 100%;
+  padding: 10px 16px;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: flex;
+}
+
+.icon-btn.save:hover {
+  background-color: #45a049;
+}
+
+.icon-btn.delete {
+  background-color: #f44336;
+  color: white;
+}
+
+.icon-btn.delete:hover {
+  background-color: #da190b;
+}
+
+.note-meta {
+  font-size: 0.75rem;
+  color: #888;
+  text-align: right;
+  margin-bottom: 6px;
+}
+
+.note-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: gray;
+  margin-bottom: 6px;
+}
+
+.note-category {
+  text-transform: capitalize;
+}
+
+.edit-title {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--text);
 }

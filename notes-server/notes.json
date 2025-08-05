@@ -1,65 +1,8 @@
 [
   {
-    "text": "Sveikas, ką veiki? Version 2",
-    "date": "2025-07-31 20:13:52",
-    "createdAt": "2025-07-31 20:13:52",
-    "updatedAt": "2025-08-04 16:50:50",
-    "category": "asmeniniai"
-  },
-  {
-    "text": "LABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABASLABAS",
-    "date": "2025-08-04 13:15:00",
-    "createdAt": "2025-08-04 13:15:00",
-    "updatedAt": "2025-08-04 13:15:00",
-    "category": ""
-  },
-  {
-    "text": "Hey ho hey ho labas\n\nlaalalala\n\nNoriu tokio funkcionalumo",
-    "date": "2025-08-04 13:22:42",
-    "createdAt": "2025-08-04 13:22:42",
-    "updatedAt": "2025-08-04 13:27:45",
-    "category": "svarbūs"
-  },
-  {
-    "text": "HAHAHAHAHAHA",
-    "date": "2025-08-04 13:22:49",
-    "createdAt": "2025-08-04 13:22:49",
-    "updatedAt": "2025-08-04 13:22:49",
-    "category": "darbo"
-  },
-  {
-    "text": "Labas dabar tu rašai tesktą",
-    "date": "2025-08-04 13:27:10",
-    "createdAt": "2025-08-04 13:27:10",
-    "updatedAt": "2025-08-04 13:27:10",
-    "category": ""
-  },
-  {
-    "text": "Ar man pavyko padaryti tai\n\n??\n\nTaip pavyko, tačiau stilius ne toks\n\n",
-    "date": "2025-08-04 13:27:28",
-    "createdAt": "2025-08-04 13:27:28",
-    "updatedAt": "2025-08-04 13:27:28",
-    "category": ""
-  },
-  {
-    "text": "Labukas\n\nKaip tu gyveni?\n\n-Atlikti kažką!",
-    "date": "2025-08-04 17:43:58",
-    "createdAt": "2025-08-04 17:43:58",
-    "updatedAt": "2025-08-04 17:43:58",
-    "category": ""
-  },
-  {
-    "text": "Pinigai daiktai",
-    "date": "2025-08-04 17:45:48",
-    "createdAt": "2025-08-04 17:45:48",
-    "updatedAt": "2025-08-04 17:45:48",
-    "category": ""
-  },
-  {
-    "text": "Labukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasiLabukas, kaip tau sekasi",
-    "date": "2025-08-04 17:50:05",
-    "createdAt": "2025-08-04 17:50:05",
-    "updatedAt": "2025-08-04 17:50:05",
-    "category": ""
+    "title": "Mano pirmas pavadinimas",
+    "text": "Pirmas užrašas",
+    "category": "Darbas",
+    "date": "2025-08-04"
   }
 ]

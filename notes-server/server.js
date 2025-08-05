@@ -15,7 +15,15 @@ app.get("/api/notes", (req, res) => {
 });
 
 app.post("/api/notes", (req, res) => {
-  const newNote = req.body;
+  const { title, text, category, date } = req.body;
+
+  const newNote = {
+    title: title || "",
+    text,
+    category,
+    date: date || new Date().toISOString().split("T")[0]
+  };
+
   const data = fs.readFileSync("notes.json", "utf-8");
   const notes = JSON.parse(data || "[]");
 
@@ -23,10 +31,6 @@ app.post("/api/notes", (req, res) => {
   fs.writeFileSync("notes.json", JSON.stringify(notes, null, 2));
 
   res.status(201).json(newNote);
-});
-
-app.listen(PORT, () => {
-  console.log(`Serveris veikia: http://localhost:${PORT}`);
 });
 
 app.delete("/api/notes/:index", (req, res) => {
@@ -55,8 +59,19 @@ app.put("/api/notes/:index", (req, res) => {
     return res.status(404).json({ message: "Užrašas nerastas" });
   }
 
-  notes[index] = updatedNote;
+  notes[index] = {
+    ...notes[index],
+    title: updatedNote.title || notes[index].title,
+    text: updatedNote.text || notes[index].text,
+    category: updatedNote.category || notes[index].category,
+    date: updatedNote.date || notes[index].date
+  };
+
   fs.writeFileSync("notes.json", JSON.stringify(notes, null, 2));
 
-  res.status(200).json(updatedNote);
+  res.status(200).json(notes[index]);
+});
+
+app.listen(PORT, () => {
+  console.log(`Serveris veikia: http://localhost:${PORT}`);
 });

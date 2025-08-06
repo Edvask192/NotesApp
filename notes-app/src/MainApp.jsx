@@ -39,7 +39,7 @@ function MainApp() {
 
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:5000/notes", {
+    fetch("https://notesapp-uf0z.onrender.com/notes", {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -83,7 +83,7 @@ function MainApp() {
 
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:5000/notes", {
+    fetch("https://notesapp-uf0z.onrender.com/notes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -11,7 +11,7 @@ const NOTES_FILE = "./notes.json";
 const SECRET_KEY = "labai_slapta_rakta_zodis";
 
 app.use(cors({
-  origin: "*",
+  origin: "https://notes-app-liard-chi.vercel.app/",
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));

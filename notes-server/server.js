@@ -107,7 +107,8 @@ app.post("/notes", authMiddleware, (req, res) => {
   };
   notes.push(newNote);
   saveNotes(notes);
-  res.json(newNote);
+
+  return res.status(201).json(newNote);
 });
 
 app.get("/protected", authMiddleware, (req, res) => {

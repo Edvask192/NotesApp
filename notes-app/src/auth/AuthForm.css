@@ -1,6 +1,6 @@
 .auth-container {
   max-width: 400px;
-  margin: 80px auto;
+  width: 100%;
   padding: 32px;
   background-color: var(--card-bg);
   color: var(--text);
@@ -56,3 +56,17 @@
   text-decoration: underline;
   font-weight: 500;
 }
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg);
+  background-image:
+    url("https://www.transparenttextures.com/patterns/paper-fibers.png"),
+    linear-gradient(135deg, #f0e6d2 0%, #e5d6b8 100%);
+  background-repeat: repeat, no-repeat;
+  background-size: auto, cover;
+}
+

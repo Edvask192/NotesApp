@@ -37,18 +37,30 @@ function MainApp() {
   useEffect(() => {
     if (!userKey) return;
 
-    const userNotes = JSON.parse(localStorage.getItem(`notes_${userKey}`)) || [];
-    const userCategories = JSON.parse(localStorage.getItem(`categories_${userKey}`)) || [];
+    const token = localStorage.getItem("token");
 
-    setNotes(userNotes);
+    fetch("http://localhost:5000/notes", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Nepavyko gauti užrašų");
+        return res.json();
+      })
+      .then(data => {
+        setNotes(data);
+      })
+      .catch(() => {
+        const localNotes =
+          JSON.parse(localStorage.getItem(`notes_${userKey}`)) || [];
+        setNotes(localNotes);
+      });
+
+    const userCategories =
+      JSON.parse(localStorage.getItem(`categories_${userKey}`)) || [];
     setCategories(userCategories);
   }, [userKey]);
-
-  useEffect(() => {
-    if (userKey) {
-      localStorage.setItem(`notes_${userKey}`, JSON.stringify(notes));
-    }
-  }, [notes, userKey]);
 
   useEffect(() => {
     if (userKey) {
@@ -69,19 +81,33 @@ function MainApp() {
   const handleAddNote = ({ title, text }) => {
     if (!title.trim() && !text.trim()) return;
 
-    const newNote = {
-      id: Date.now(),
-      title: title.trim(),
-      text: text.trim(),
-      category: category || "nenurodyta",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+    const token = localStorage.getItem("token");
 
-    setNotes([newNote, ...notes]);
-    setTitle("");
-    setNote("");
-    setCategory("");
+    fetch("http://localhost:5000/notes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        title: title.trim(),
+        text: text.trim(),
+        category: category || "nenurodyta"
+      })
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Nepavyko pridėti užrašo");
+        return res.json();
+      })
+      .then(newNote => {
+        setNotes([newNote, ...notes]);
+        setTitle("");
+        setNote("");
+        setCategory("");
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
 
   const handleUpdateNote = (id, updatedData) => {
@@ -89,10 +115,10 @@ function MainApp() {
       notes.map((n) =>
         n.id === id
           ? {
-            ...n,
-            ...updatedData,
-            updatedAt: new Date().toISOString(),
-          }
+              ...n,
+              ...updatedData,
+              updatedAt: new Date().toISOString(),
+            }
           : n
       )
     );
@@ -113,9 +139,11 @@ function MainApp() {
 
   const handleDeleteCategory = (cat) => {
     setCategories(categories.filter((c) => c !== cat));
-    setNotes(notes.map((note) =>
-      note.category === cat ? { ...note, category: "nenurodyta" } : note
-    ));
+    setNotes(
+      notes.map((note) =>
+        note.category === cat ? { ...note, category: "nenurodyta" } : note
+      )
+    );
   };
 
   if (!userKey) return null;
@@ -190,7 +218,9 @@ function MainApp() {
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
             className="icon-btn theme-toggle"
-            title={isDarkMode ? "Perjungti į šviesią temą" : "Perjungti į tamsią temą"}
+            title={
+              isDarkMode ? "Perjungti į šviesią temą" : "Perjungti į tamsią temą"
+            }
           >
             {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
           </button>

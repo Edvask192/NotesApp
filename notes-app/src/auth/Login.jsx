@@ -1,5 +1,4 @@
 import "./AuthForm.css";
-import "./App.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
@@ -11,23 +10,30 @@ function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const user = users.find((u) => u.email === email && u.password === password);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
 
-    if (!user) {
-      setError("Neteisingas el. paštas arba slaptažodis");
-      return;
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify({ email: data.email }));
+
+      login({ email: data.email });
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
     }
-
-    login(user);
-    navigate("/");
   };
 
   return (
-    <div className="login-page fade-slide">
+    <div className="auth-page">
       <div className="auth-container">
         <h2>Edvino Užrašinė</h2>
         <form onSubmit={handleLogin}>

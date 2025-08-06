@@ -1,6 +1,9 @@
 [ABOUT.md](https://github.com/user-attachments/files/21620136/ABOUT.md)
 # 📓 NotesApp
 
+
+Disclaimer, deployinus projectą css susigadino, dėl patogumo pasirinkti internetinės naršyklės zoom 80%. Work in progress :)
+
 NotesApp – tai užrašų tvarkymo aplikacija su prisijungimu ir registracija, galimybe kurti, redaguoti, trinti ir filtruoti užrašus pagal tekstą, datą ir kategorijas. Projektas sukurtas naudojant **React** frontend'ui ir **Node.js (Express)** backend'ui.
 
 ## 🚀 Tiesioginė nuoroda

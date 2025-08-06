@@ -6,6 +6,8 @@ import { useAuth } from "./auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Pin, XCircle, FileEdit, Lock, Sun, Moon } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function MainApp() {
   const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState("");
@@ -39,7 +41,7 @@ function MainApp() {
 
     const token = localStorage.getItem("token");
 
-    fetch("https://notesapp-uf0z.onrender.com/notes", {
+    fetch(`${API_URL}/notes`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -83,7 +85,7 @@ function MainApp() {
 
     const token = localStorage.getItem("token");
 
-    fetch("https://notesapp-uf0z.onrender.com/notes", {
+    fetch(`${API_URL}/notes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

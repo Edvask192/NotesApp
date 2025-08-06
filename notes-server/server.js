@@ -1,5 +1,3 @@
-import cors from "cors";
-
 const express = require("express");
 const fs = require("fs");
 const bcrypt = require("bcrypt");
@@ -13,7 +11,7 @@ const NOTES_FILE = "./notes.json";
 const SECRET_KEY = "labai_slapta_rakta_zodis";
 
 app.use(cors({
-  origin: "https://notes-app-liard-chi.vercel.app/",
+  origin: "https://notes-app-liard-chi.vercel.app", // be "/" gale
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));

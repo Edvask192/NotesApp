@@ -1,9 +1,13 @@
 :root {
-  --bg: #f0e6d2; /* pagrindinis fonas */
+  --bg: #f0e6d2;
+  /* pagrindinis fonas */
   --text: #2b2b2b;
-  --card-bg: #ffffff; /* užrašų kortelių fonas */
-  --sidebar-bg: #d6c4a3; /* sidebar fonas */
-  --sidebar-card-bg: #f7f1e3; /* sidebar kortelės */
+  --card-bg: #ffffff;
+  /* užrašų kortelių fonas */
+  --sidebar-bg: #d6c4a3;
+  /* sidebar fonas */
+  --sidebar-card-bg: #f7f1e3;
+  /* sidebar kortelės */
   --input-bg: #ffffff;
   --button-bg: #d6c8e4;
   --button-hover: #c5b1dd;
@@ -66,10 +70,8 @@ body {
   position: sticky;
   top: 0;
   height: 100vh;
-  overflow-y: hidden;
-  overflow-x: hidden;
+  overflow-y: auto;
   z-index: 10;
-  word-wrap: break-word;
 }
 
 .sidebar input,
@@ -154,6 +156,14 @@ body {
   flex-grow: 1;
   padding: 20px;
   overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  align-content: start;
+  background-color: var(--bg);
+  background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+  background-repeat: repeat;
+  background-size: auto;
 }
 
 .notification {
@@ -171,13 +181,11 @@ body {
   border-left: 6px solid #6c757d;
   border-radius: 10px;
   padding: 16px;
-  margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
   transition: transform 0.2s;
   word-wrap: break-word;
   overflow-wrap: break-word;
   color: var(--text);
-  max-width: 100%;
 }
 
 .note-card:hover {
@@ -219,11 +227,25 @@ input::placeholder {
   opacity: 0.6;
 }
 
-.note-card.category-asmeniniai { border-left-color: #007bff; }
-.note-card.category-svarbūs { border-left-color: #dc3545; }
-.note-card.category-darbo { border-left-color: #28a745; }
-.note-card.category-laisvalaikio { border-left-color: #ffc107; }
-.note-card.category-nenurodyta { border-left-color: #6c757d; }
+.note-card.category-asmeniniai {
+  border-left-color: #007bff;
+}
+
+.note-card.category-svarbūs {
+  border-left-color: #dc3545;
+}
+
+.note-card.category-darbo {
+  border-left-color: #28a745;
+}
+
+.note-card.category-laisvalaikio {
+  border-left-color: #ffc107;
+}
+
+.note-card.category-nenurodyta {
+  border-left-color: #6c757d;
+}
 
 .logout-icon-btn {
   background: none;
@@ -267,14 +289,37 @@ summary {
   font-weight: 500;
 }
 
-.icon-btn svg { width: 16px; height: 16px; }
+.icon-btn svg {
+  width: 16px;
+  height: 16px;
+}
 
-.icon-btn.save { background-color: #4CAF50; color: white; }
-.icon-btn.save:hover { background-color: #45a049; }
-.icon-btn.delete { background-color: #f44336; color: white; }
-.icon-btn.delete:hover { background-color: #da190b; }
-.icon-btn.logout { background-color: #e91e63; color: white; }
-.icon-btn.logout:hover { background-color: #c2185b; }
+.icon-btn.save {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.icon-btn.save:hover {
+  background-color: #45a049;
+}
+
+.icon-btn.delete {
+  background-color: #f44336;
+  color: white;
+}
+
+.icon-btn.delete:hover {
+  background-color: #da190b;
+}
+
+.icon-btn.logout {
+  background-color: #e91e63;
+  color: white;
+}
+
+.icon-btn.logout:hover {
+  background-color: #c2185b;
+}
 
 @media (max-width: 768px) {
   .app-container {
@@ -282,17 +327,15 @@ summary {
     height: auto;
   }
 
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
-  overflow-y: auto;
-}
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
 
   .main-content {
+    grid-template-columns: 1fr;
     padding: 10px;
-    overflow-y: visible;
   }
 
   .note-list {
@@ -301,6 +344,7 @@ summary {
 }
 
 @media (max-width: 480px) {
+
   .sidebar input,
   .sidebar select,
   .sidebar button,

@@ -2,7 +2,7 @@
 # 📓 NotesApp
 
 
-Disclaimer, deployinus projectą css susigadino, dėl patogumo pasirinkti internetinės naršyklės zoom 80%. Work in progress :)
+### Disclaimer, deploynus projektą CSS susigadino, dėl patogumo pasirinkti internetinės naršyklės zoom 80%. Work in progress :)
 
 NotesApp – tai užrašų tvarkymo aplikacija su prisijungimu ir registracija, galimybe kurti, redaguoti, trinti ir filtruoti užrašus pagal tekstą, datą ir kategorijas. Projektas sukurtas naudojant **React** frontend'ui ir **Node.js (Express)** backend'ui.
 

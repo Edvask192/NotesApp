@@ -1,4 +1,4 @@
-[ABOUT.md](https://github.com/user-attachments/files/21620136/ABOUT.md)
+
 # 📓 NotesApp
 
 

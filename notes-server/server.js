@@ -1,16 +1,21 @@
 const express = require("express");
 const fs = require("fs");
+const path = require("path");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 
 const app = express();
-const PORT = 5000;
-const USERS_FILE = "./users.json";
-const NOTES_FILE = "./notes.json";
+const PORT = process.env.PORT || 5000;
+const USERS_FILE = path.join(__dirname, "users.json");
+const NOTES_FILE = path.join(__dirname, "notes.json");
 const SECRET_KEY = "labai_slapta_rakta_zodis";
 
-app.use(cors());
+app.use(cors({
+  origin: ["https://notes-app-liard-chi.vercel.app"], // tavo Vercel domenas
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(express.json());
 
 function readUsers() {

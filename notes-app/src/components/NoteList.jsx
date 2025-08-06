@@ -65,7 +65,6 @@ function NoteList({ notes, handleDeleteNote, handleUpdateNote, filter }) {
           key={note.id}
           className={`note-card category-${note.category || "nenurodyta"}`}
         >
-          {/* Datos ir kategorija */}
           <div className="note-meta">
             <span className="note-category">{note.category}</span>
             <span className="note-dates">

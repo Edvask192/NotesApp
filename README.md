@@ -84,6 +84,14 @@ http://localhost:5173
 
 <img width="267" height="393" alt="image" src="https://github.com/user-attachments/assets/f3785385-4d06-4ec5-a0ee-bffa45fce12b" />
 
+### Užrašo filtravimas pagala tekstą / datą / kategoriją
+
+<img width="285" height="339" alt="image" src="https://github.com/user-attachments/assets/13f6c211-171d-4c37-835b-d174f3ee5725" />
+
+###  Naujo užrašo / kategorijos pridėjimo kortelė
+
+<img width="271" height="393" alt="image" src="https://github.com/user-attachments/assets/04a072c0-e5e6-40c6-aca2-d89054184072" />
+
 ### Licencija
 
 Projektas skirtas mokymuisi ir asmeniniam naudojimui.
